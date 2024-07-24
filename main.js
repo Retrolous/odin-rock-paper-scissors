@@ -42,38 +42,16 @@ function playGame(){
 
     function playRound(humanChoice, computerChoice){
     
-        if(humanChoice === "scissors"){
-            if(computerChoice === "rock"){
-                console.log(`You lost! Your ${humanChoice} were beaten by ${computerChoice}`);
-                computerScore++;
-            } else if (computerChoice === "paper") {
-                console.log(`You won! Your ${humanChoice} beat ${computerChoice}`);
-                humanScore++;
-            } else {
-                console.log("Draw! No-one's score increases!")
-            }
+        if((humanChoice === computerChoice)){
+            console.log("Draw! No-one's score increases!")
         }
-        else if(humanChoice === "rock"){
-            if(computerChoice === "paper"){
-                console.log(`You lost! Your ${humanChoice} was beaten by ${computerChoice}`);
-                computerScore++;
-            } else if(computerChoice === "scissors") {
-                console.log(`You won! Your ${humanChoice} beat ${computerChoice}`);
-                humanScore++;
-            } else {
-                console.log("Draw! No-one's score increases!")
-            }
+        else if((humanChoice === "rock" && computerChoice === "scissors") || (humanChoice === "paper" && computerChoice === "rock") || (humanChoice === "scissors" && computerChoice === "paper")){
+            console.log(`You won! Your ${humanChoice} beat ${computerChoice}`);
+            humanScore++;
         }
-        else if(humanChoice === "paper"){
-            if(computerChoice === "scissors"){
-                console.log(`You lost! Your ${humanChoice} was beaten by ${computerChoice}`);
-                computerScore++;
-            } else if(computerChoice === "rock"){
-                console.log(`You won! Your ${humanChoice} beat ${computerChoice}`);
-                humanScore++;
-            } else {
-                console.log("Draw! No-one's score increases!")
-            }
+        else {
+            console.log(`You lost! The computer's ${computerChoice} beat your ${humanChoice}`);
+            computerScore++;
         }
     }
 
@@ -87,7 +65,7 @@ function playGame(){
         playRound(humanSelection, computerSelection);
     }
     console.log(`The final score was ${humanScore} against ${computerScore}`);
-    
+
     if(humanScore > computerScore){
         console.log("You won!");
     } else if(computerScore > humanScore){
