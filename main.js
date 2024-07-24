@@ -1,8 +1,3 @@
-console.log("We ball");
-
-// Set score to 0, for user and computer
-
-
 // Take input from user
 
 function getHumanChoice(userChoice){
@@ -39,9 +34,6 @@ function getComputerChoice(){
 function randomInt(min = 0, max){
     return Math.floor((Math.random() * ((max + 1) - min)) + min);
 }
-// Compare input with selection
-
-
 
 // Play 5 rounds and then determine winner
 function playGame(){
