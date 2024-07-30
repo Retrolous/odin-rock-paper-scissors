@@ -1,24 +1,17 @@
 // Take input from user
 
-function getHumanChoice(userChoice){
+const rockButton = document.querySelector("#rock");
+const paperButton = document.querySelector("#paper");
+const scissorsButton = document.querySelector("#scissors");
+const resultsDiv = document.querySelector("#results");
+const humanScoreDiv = document.querySelector("#humanScore");
+const computerScoreDiv = document.querySelector("#computerScore")
+const winnerDiv = document.querySelector("#winner");
+const body = document.querySelector("body");
 
-    let choiceMade = false;
-
-    while(!choiceMade){
-    let userChoice = prompt("What will be your move? \n(Rock, Paper or Scissors) \n").toLowerCase();
-    switch (userChoice){
-        case "scissors":
-            return "scissors";
-        case "rock":
-            return "rock";
-        case "paper":
-            return "paper";
-        default:
-            break;
-    }
-    alert("You made an invalid choice!")
-    }
-}
+let humanScore = 0;
+let computerScore = 0;
+let roundNumber = 1;
 
 // Generate selection
 
@@ -36,45 +29,81 @@ function randomInt(min = 0, max){
 }
 
 // Play 5 rounds and then determine winner
-function playGame(){
-    let humanScore = 0;
-    let computerScore = 0;
-
+function playGame(humanClick){
+    
     function playRound(humanChoice, computerChoice){
     
         if((humanChoice === computerChoice)){
-            console.log("Draw! No-one's score increases!")
+            resultsDiv.textContent = "Draw! No-one's score increases!";
         }
         else if((humanChoice === "rock" && computerChoice === "scissors") || (humanChoice === "paper" && computerChoice === "rock") || (humanChoice === "scissors" && computerChoice === "paper")){
-            console.log(`You won! Your ${humanChoice} beat ${computerChoice}`);
+            resultsDiv.textContent = `You won! Your ${humanChoice} beat ${computerChoice}`;
             humanScore++;
         }
         else {
-            console.log(`You lost! The computer's ${computerChoice} beat your ${humanChoice}`);
+            resultsDiv.textContent = `You lost! The computer's ${computerChoice} beat your ${humanChoice}`;
             computerScore++;
         }
     }
 
-    for(i = 0; i < 5; i++){
-        let humanSelection = getHumanChoice();
+    if(roundNumber < 5){
+        let humanSelection = humanClick;
         let computerSelection = getComputerChoice();
 
         console.log(`Human selected ${humanSelection}`);
         console.log(`Computer selected ${computerSelection}`);
         
         playRound(humanSelection, computerSelection);
-    }
-    console.log(`The final score was ${humanScore} against ${computerScore}`);
+   } 
+   else {
+        console.log(`The final score was ${humanScore} against ${computerScore}`);
 
-    if(humanScore > computerScore){
-        console.log("You won!");
-    } else if(computerScore > humanScore){
-        console.log("You lost. Try again");
-    } else {
-        console.log("A draw?!");
+        if(humanScore > computerScore){
+            winnerDiv.textContent = "You won!";
+        } else if(computerScore > humanScore){
+            winnerDiv.textContent = "You lost. Try again";
+        } else {
+            winnerDiv.textContent = "A draw?!";
+        }
+        unreadyGame();
     }
+
+
+    roundNumber++;
+    humanScoreDiv.textContent = humanScore;
+    computerScoreDiv.textContent = computerScore;
 }
 
-playGame();
+function readyGame() {
+    rockButton.addEventListener("click", () => {playGame("rock")});
+    paperButton.addEventListener("click", () => {playGame("paper")});
+    scissorsButton.addEventListener("click", () => {playGame("scissors")});
+}
 
+function unreadyGame(){
 
+    rockButton.setAttribute("style", "display:none");
+    paperButton.setAttribute("style", "display:none");
+    scissorsButton.setAttribute("style", "display:none");
+
+    let retryButton = document.createElement("button");
+    retryButton.textContent = "Retry";
+    body.appendChild(retryButton);
+    
+    retryButton.addEventListener("click", (e) => {
+        e.target.remove();
+        roundNumber = 1;
+        humanScore = 0;
+        computerScore = 0;
+        rockButton.setAttribute("style", "display:inline");
+        paperButton.setAttribute("style", "display:inline");
+        scissorsButton.setAttribute("style", "display:inline");
+        resultsDiv.textContent = "";
+        winnerDiv.textContent = "";
+        humanScoreDiv.textContent = "";
+        computerScoreDiv.textContent = "";
+
+    })
+}
+
+readyGame();
